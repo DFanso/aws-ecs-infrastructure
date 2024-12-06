@@ -1,5 +1,5 @@
 locals {
-  environment = local.environment
+  environment = "dev"
   service_name = "backend"
   container_port = 3000
   domain = "api-dev.${var.domain_name}"
