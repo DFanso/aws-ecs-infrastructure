@@ -1,30 +1,30 @@
 # AWS ECS Infrastructure
 
-This repository contains Terraform configurations for deploying a scalable AWS ECS (Elastic Container Service) infrastructure. The infrastructure is divided into two main components: persistence (shared resources) and dynamic (environment-specific resources).
+This repository contains Terraform configurations for deploying a scalable AWS ECS (Elastic Container Service) infrastructure. The infrastructure is divided into two main components: shared services (shared resources) and environments (environment-specific resources).
 
 ## Project Structure
 
 ```
 .
-├── persistence/           # Shared infrastructure resources
-│   ├── alb.tf            # Application Load Balancer configuration
-│   ├── certificate.tf    # SSL/TLS certificate management
-│   ├── ecr.tf           # Elastic Container Registry setup
-│   ├── iam.tf           # IAM roles and policies
-│   ├── vpc.tf           # VPC and networking configuration
+├── shared-services/      # Shared infrastructure resources
+│   ├── alb.tf           # Application Load Balancer configuration
+│   ├── certificate.tf   # SSL/TLS certificate management
+│   ├── ecr.tf          # Elastic Container Registry setup
+│   ├── iam.tf          # IAM roles and policies
+│   ├── vpc.tf          # VPC and networking configuration
 │   └── security_groups.tf # Security group definitions
 │
-└── dynamic/             # Environment-specific configurations
-    ├── modules/         # Reusable Terraform modules
+└── environments/        # Environment-specific configurations
+    ├── modules/        # Reusable Terraform modules
     │   └── ecs-service/ # ECS service module
-    └── dev/            # Development environment
-        ├── backend.tf   # Backend service configuration
-        └── main.tf      # Main Terraform configuration
+    └── dev/           # Development environment
+        ├── backend.tf  # Backend service configuration
+        └── main.tf     # Main Terraform configuration
 ```
 
 ## Infrastructure Components
 
-### Persistence Layer
+### Shared Services Layer
 - **VPC**: Multi-AZ setup with public and private subnets
 - **Application Load Balancer**: HTTPS-enabled with TLS 1.3
 - **ECR Repositories**: Automated image scanning and lifecycle policies
@@ -32,7 +32,7 @@ This repository contains Terraform configurations for deploying a scalable AWS E
 - **Security Groups**: Controlled network access
 - **IAM Roles**: Service-specific permissions
 
-### Dynamic Layer (Development Environment)
+### Environments Layer (Development Environment)
 - **Backend Service**:
   - Container Port: 3000
   - Resource Allocation: 256 CPU units, 512MB memory
@@ -47,9 +47,9 @@ This repository contains Terraform configurations for deploying a scalable AWS E
 
 ## Deployment Instructions
 
-### 1. Deploy Persistence Layer
+### 1. Deploy Shared Services Layer
 ```bash
-cd persistence
+cd shared-services
 cp terraform.tfvars.example terraform.tfvars
 # Update terraform.tfvars with your values
 terraform init
@@ -58,7 +58,7 @@ terraform apply
 
 ### 2. Deploy Development Environment
 ```bash
-cd dynamic/dev
+cd environments/dev
 cp terraform.tfvars.example terraform.tfvars
 # Update terraform.tfvars with your values
 terraform init
@@ -66,8 +66,8 @@ terraform apply
 ```
 
 ## State Management
-- Persistence state: `s3://ecs-dfanso/persistence/terraform.tfstate`
-- Dev environment state: `s3://ecs-dfanso/dynamic/dev/terraform.tfstate`
+- Shared services state: `s3://ecs-dfanso/shared-services/terraform.tfstate`
+- Dev environment state: `s3://ecs-dfanso/environments/dev/terraform.tfstate`
 
 ## Security Features
 - HTTPS-only communication
@@ -92,4 +92,4 @@ Check `terraform.tfvars.example` in each directory for required variables:
 ## Notes
 - All infrastructure is managed through Terraform
 - State files are encrypted in S3
-- Development environment uses shared infrastructure from persistence layer
+- Development environment uses shared infrastructure from shared services layer
