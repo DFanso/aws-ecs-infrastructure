@@ -32,3 +32,5 @@ override.tf.json
 # Ignore CLI configuration files
 .terraformrc
 terraform.rc
+persistence/.terraform.lock.hcl
+persistence/infrastructure_outputs.md
