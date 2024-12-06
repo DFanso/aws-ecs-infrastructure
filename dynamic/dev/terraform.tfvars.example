@@ -1,0 +1,12 @@
+aws_region = "ap-southeast-1"
+project_name = "your-project"
+credentials_profile = "dfanso"
+domain_name = "yourdomain.com"
+cloudflare_api_token = "your-cloudflare-token"
+cloudflare_account_id = "your-cloudflare-account-id"
+image_tag = "latest"
+
+tags = {
+  Owner = "DevOps"
+  Environment = "dev"
+}
