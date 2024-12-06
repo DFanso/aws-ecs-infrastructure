@@ -14,7 +14,7 @@ terraform {
 
   backend "s3" {
     bucket         = "ecs-dfanso"
-    key            = "persistence/terraform.tfstate"
+    key            = "shared-services/terraform.tfstate"
     region         = "ap-southeast-1"
     encrypt        = true
   }
