@@ -16,7 +16,7 @@ module "backend_service" {
   domain_name     = local.domain
 
   # Container Configuration
-  container_image = "${data.terraform_remote_state.persistence.outputs.ecr_repository_urls["${var.project_name}-${local.service_name}"]}:${var.image_tag}"
+  container_image = "${data.terraform_remote_state.shared-services.outputs.ecr_repository_urls["${var.project_name}-${local.service_name}"]}:${var.image_tag}"
   container_cpu    = 256
   container_memory = 512
   container_environment = {
@@ -25,17 +25,17 @@ module "backend_service" {
   container_secrets = {}
 
   # Network Configuration
-  vpc_id             = data.terraform_remote_state.persistence.outputs.vpc_id
-  private_subnet_ids = data.terraform_remote_state.persistence.outputs.private_subnets
-  alb_arn           = data.terraform_remote_state.persistence.outputs.alb_arn
-  certificate_arn    = data.terraform_remote_state.persistence.outputs.certificate_arn
+  vpc_id             = data.terraform_remote_state.shared-services.outputs.vpc_id
+  private_subnet_ids = data.terraform_remote_state.shared-services.outputs.private_subnets
+  alb_arn           = data.terraform_remote_state.shared-services.outputs.alb_arn
+  certificate_arn    = data.terraform_remote_state.shared-services.outputs.certificate_arn
   
   # Security Groups
-  alb_security_group_id = data.terraform_remote_state.persistence.outputs.alb_security_group_id
+  alb_security_group_id = data.terraform_remote_state.shared-services.outputs.alb_security_group_id
   
   # IAM Roles
-  execution_role_arn = data.terraform_remote_state.persistence.outputs.ecs_task_execution_role_arn
-  task_role_arn      = data.terraform_remote_state.persistence.outputs.ecs_task_role_arn
+  execution_role_arn = data.terraform_remote_state.shared-services.outputs.ecs_task_execution_role_arn
+  task_role_arn      = data.terraform_remote_state.shared-services.outputs.ecs_task_role_arn
 
   # Cloudflare Configuration
   cloudflare_account_id = var.cloudflare_account_id

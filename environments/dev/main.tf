@@ -14,7 +14,7 @@ terraform {
 
   backend "s3" {
     bucket         = "ecs-dfanso"
-    key            = "dynamic/dev/terraform.tfstate"
+    key            = "environments/dev/terraform.tfstate"
     region         = "ap-southeast-1"
     encrypt        = true
   }
@@ -40,12 +40,12 @@ provider "cloudflare" {
   api_token = var.cloudflare_api_token
 }
 
-# Remote state for persistence layer
-data "terraform_remote_state" "persistence" {
+# Remote state for shared-services layer
+data "terraform_remote_state" "shared-services" {
   backend = "s3"
   config = {
     bucket = "ecs-dfanso"
-    key    = "persistence/terraform.tfstate"
+    key    = "shared-services/terraform.tfstate"
     region = "ap-southeast-1"
   }
 }

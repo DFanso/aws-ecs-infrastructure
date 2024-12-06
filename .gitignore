@@ -32,5 +32,6 @@ override.tf.json
 # Ignore CLI configuration files
 .terraformrc
 terraform.rc
-persistence/.terraform.lock.hcl
-persistence/infrastructure_outputs.md
+shared-services/.terraform.lock.hcl
+shared-services/infrastructure_outputs.md
+enviroments/dev/.terraform.lock.hcl
