@@ -1,0 +1,49 @@
+# AWS Configuration
+aws_region = "ap-southeast-1"
+credentials_profile = "dfanso"
+
+# Project Configuration
+project_name = "ecs-test"
+
+# Domain Configuration
+domain_name = "example.com"
+
+# VPC Configuration
+vpc_cidr = "10.0.0.0/16"
+azs = [
+  "ap-southeast-1a",
+  "ap-southeast-1b",
+  "ap-southeast-1c"
+]
+private_subnets = [
+  "10.0.1.0/24",
+  "10.0.2.0/24",
+  "10.0.3.0/24"
+]
+public_subnets = [
+  "10.0.101.0/24",
+  "10.0.102.0/24",
+  "10.0.103.0/24"
+]
+
+# VPC Features
+enable_nat_gateway = true
+single_nat_gateway = true
+
+# ECR Repositories
+ecr_repositories = [
+  "backend",
+  "frontend",
+  "api"
+]
+
+# Additional Tags
+tags = {
+  Owner     = "dfanso"
+  ManagedBy = "terraform"
+  Project   = "ecs-test"
+}
+
+# Cloudflare Configuration
+cloudflare_api_token = "your-cloudflare-api-token"
+cloudflare_zone_id   = "your-cloudflare-zone-id"
