@@ -168,6 +168,30 @@ resource "cloudflare_record" "main" {
   content = data.aws_lb.main.dns_name
   type    = "CNAME"
   proxied = true
+
+  timeouts {
+    create = "5m"
+    update = "5m"
+  }
+}
+
+# Data Sources
+data "aws_region" "current" {}
+
+data "aws_lb" "main" {
+  arn = var.alb_arn
+}
+
+data "aws_lb_listener" "https" {
+  load_balancer_arn = var.alb_arn
+  port              = 443
+}
+
+data "cloudflare_zones" "main" {
+  filter {
+    account_id = var.cloudflare_account_id
+    name       = regex("(?:.*\\.)?([^.]+\\.[^.]+)$", var.domain_name)[0]
+  }
 }
 
 # Auto Scaling
@@ -191,24 +215,5 @@ resource "aws_appautoscaling_policy" "ecs_policy_cpu" {
       predefined_metric_type = "ECSServiceAverageCPUUtilization"
     }
     target_value = 70.0
-  }
-}
-
-# Data Sources
-data "aws_region" "current" {}
-
-data "aws_lb" "main" {
-  arn = var.alb_arn
-}
-
-data "aws_lb_listener" "https" {
-  load_balancer_arn = var.alb_arn
-  port              = 443
-}
-
-data "cloudflare_zones" "main" {
-  filter {
-    account_id = var.cloudflare_account_id
-    name       = regex("(?:.*\\.)?([^.]+\\.[^.]+)$", var.domain_name)[0]
   }
 }
