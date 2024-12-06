@@ -33,3 +33,4 @@ override.tf.json
 .terraformrc
 terraform.rc
 persistence/.terraform.lock.hcl
+persistence/infrastructure_outputs.md

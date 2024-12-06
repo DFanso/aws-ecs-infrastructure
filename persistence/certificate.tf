@@ -36,6 +36,10 @@ resource "cloudflare_record" "cert_validation" {
 
   lifecycle {
     create_before_destroy = true
+    ignore_changes = [
+      name,
+      content
+    ]
   }
 }
 

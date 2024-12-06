@@ -6,11 +6,6 @@ resource "aws_lb" "main" {
   subnets           = module.vpc.public_subnets
 
   enable_deletion_protection = false
-
-  access_logs {
-    bucket  = aws_s3_bucket.alb_logs.id
-    enabled = true
-  }
 }
 
 # HTTPS Listener
@@ -46,26 +41,3 @@ resource "aws_lb_listener" "http" {
     }
   }
 }
-
-resource "aws_s3_bucket" "alb_logs" {
-  bucket = "${var.project_name}-dfanso-alb-logs"
-}
-
-resource "aws_s3_bucket_policy" "alb_logs" {
-  bucket = aws_s3_bucket.alb_logs.id
-  policy = jsonencode({
-    Version = "2012-10-17"
-    Statement = [
-      {
-        Effect = "Allow"
-        Principal = {
-          AWS = "arn:aws:iam::${data.aws_elb_service_account.main.id}:root"
-        }
-        Action = "s3:PutObject"
-        Resource = "${aws_s3_bucket.alb_logs.arn}/*"
-      }
-    ]
-  })
-}
-
-data "aws_elb_service_account" "main" {}
